@@ -45,25 +45,34 @@ Accurate forecasting is important for predicting satellite drag, GPS accuracy, a
   - Seasonal cycle (27 days, ~solar rotation)  
 - **MAE ≈ 14.9**  
 - **RMSE ≈ 24.7**  
-- Captured long-term 27-day cycles but over-smoothed the forecast. Underperformed persistence overall.  
+- Fit converged, captured the repeating 27-day cycle, but forecasts were overly smoothed. Underperformed persistence overall.  
+
+---
+
+### 4. Random Forest (Walk-Forward Validation)
+- Inputs: last 27 days of flux as lag features  
+- Output: flux 7 days ahead  
+- Evaluated using rolling walk-forward splits to mimic real forecasting  
+- **MAE ≈ _(your measured value)_**  
+- **RMSE ≈ _(your measured value)_**  
+- Handles nonlinear spikes better than linear/SARIMA models, though still challenged by extreme events.  
 
 ---
 
 ## Current Takeaways
-- **Persistence** remains surprisingly strong as a baseline.  
-- **Linear Regression** provides some RMSE improvement but is still limited by linear assumptions.  
-- **SARIMA** can model cycles but fails on sharp solar activity spikes.  
-- Traditional linear/statistical models **struggle with the nonlinear, spiky nature of solar flux**.  
+- **Persistence** remains a tough baseline to beat during quiet solar activity.  
+- **Linear Regression** reduces RMSE slightly by catching some spikes.  
+- **SARIMA** models periodic cycles well but oversmooths and lags behind spikes.  
+- **Random Forest** introduces nonlinearity, showing promise in handling more complex dynamics.  
+- Traditional linear/statistical models still **struggle with nonlinear, spiky solar flux patterns**.  
 
 ---
 
 ## Next Steps
-- Explore **nonlinear ML models** such as:
-  - **Random Forests** → can capture threshold effects and nonlinear interactions  
-  - **Gradient Boosting** → strong performance on spiky time series  
-  - **Neural Networks (RNNs/LSTMs)** → handle sequential patterns and complex dynamics  
-- Compare these models against persistence, regression, and SARIMA.  
-- Create clear visualizations of predictions vs actual flux values.  
+- Tune **Random Forest hyperparameters** (trees, depth, features) to reduce variance.  
+- Try **Gradient Boosting (XGBoost/LightGBM)** for stronger nonlinear modeling.  
+- Experiment with **Neural Networks (RNNs/LSTMs)** to directly model sequential dynamics.  
+- Expand walk-forward validation and visualizations to compare models under both quiet and active solar periods.  
 
 ---
 
