@@ -80,8 +80,14 @@ It is recommended to keep dependencies isolated in a virtual environment.
 python -m venv .venv
 ```
 
-On Linux/MAC: ```bash source .venv/bin/activate```
-On Windows: ```bash .venv\Scripts\activate```
+On Linux/MAC: 
+```bash
+source .venv/bin/activate
+```
+On Windows: 
+```bash 
+.venv\Scripts\activate
+```
 
 ### 3. Install Dependencies
 After activating the environment, install required packages:
