@@ -53,9 +53,9 @@ Accurate forecasting is important for predicting satellite drag, GPS accuracy, a
 - Inputs: last 27 days of flux as lag features  
 - Output: flux 7 days ahead  
 - Evaluated using rolling walk-forward splits to mimic real forecasting  
-- **MAE ≈ _(your measured value)_**  
-- **RMSE ≈ _(your measured value)_**  
-- Handles nonlinear spikes better than linear/SARIMA models, though still challenged by extreme events.  
+- **MAE ≈ 11.9**  
+- **RMSE ≈ 21.5**  
+- Best performer so far, showing clear gains over persistence and linear models, especially on nonlinear solar flux spikes.  
 
 ---
 
@@ -63,7 +63,7 @@ Accurate forecasting is important for predicting satellite drag, GPS accuracy, a
 - **Persistence** remains a tough baseline to beat during quiet solar activity.  
 - **Linear Regression** reduces RMSE slightly by catching some spikes.  
 - **SARIMA** models periodic cycles well but oversmooths and lags behind spikes.  
-- **Random Forest** introduces nonlinearity, showing promise in handling more complex dynamics.  
+- **Random Forest** outperforms all tested baselines, capturing nonlinear dynamics better.  
 - Traditional linear/statistical models still **struggle with nonlinear, spiky solar flux patterns**.  
 
 ---
