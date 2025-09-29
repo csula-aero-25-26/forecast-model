@@ -35,35 +35,58 @@ Accurate forecasting is important for predicting satellite drag, GPS accuracy, a
 - Output: flux 7 days ahead (`target_flux`)  
 - **MAE ≈ 13.8**  
 - **RMSE ≈ 22.7**  
-- Slightly worse average error (MAE) than persistence, but improves RMSE by handling spikes better.  
+- Did not beat persistence overall: higher average error (MAE), though RMSE was slightly lower by smoothing spikes.  
 
 ---
 
 ### 3. SARIMA (Seasonal ARIMA)
 - Parameters: `(2,1,2)(1,1,1,27)`  
-  - Short-term memory (last 2 days, last 2 forecast errors)  
+  - Short-term memory (autoregressive + moving average terms)  
   - Seasonal cycle (27 days, ~solar rotation)  
 - **MAE ≈ 14.9**  
 - **RMSE ≈ 24.7**  
-- Captured long-term 27-day cycles but over-smoothed the forecast. Underperformed persistence overall.  
+- Fit converged, captured the repeating 27-day cycle, but forecasts were overly smoothed. Performed worse than persistence overall.  
+
+---
+
+### 4. Random Forest (Walk-Forward Validation, 100 Trees)
+- Inputs: last 27 days of flux as lag features  
+- Output: flux 7 days ahead  
+- Evaluated using walk-forward validation to simulate real forecasting  
+- **MAE ≈ 16.9**  
+- **RMSE ≈ 23.9**  
+- Did not beat persistence. Predictions were smoother and reduced variance, but errors on spikes increased.  
+
+---
+
+### 5. Random Forest (Alternative Lag Design: 7 recent days + 27–33 days ago)
+- Inputs: last 7 days + same 7-day window one solar rotation ago  
+- Output: flux 7 days ahead  
+- Evaluated with walk-forward validation  
+- **MAE ≈ 21.2**  
+- **RMSE ≈ 29.6**  
+- Performed worse than both persistence and the 27-lag Random Forest. Limiting to only 14 lags reduced context and degraded accuracy.  
 
 ---
 
 ## Current Takeaways
-- **Persistence** remains surprisingly strong as a baseline.  
-- **Linear Regression** provides some RMSE improvement but is still limited by linear assumptions.  
-- **SARIMA** can model cycles but fails on sharp solar activity spikes.  
-- Traditional linear/statistical models **struggle with the nonlinear, spiky nature of solar flux**.  
+- **Persistence** is a very strong baseline — difficult to beat with simple models.  
+- **Linear Regression** and **SARIMA** underperformed persistence, confirming that linear/statistical approaches struggle with nonlinear solar activity.  
+- **Random Forest** on lagged features did not beat persistence (higher MAE, similar RMSE).  
+- **Alternative lag design** (recent + rotational) performed worse, suggesting that reducing lags loses valuable context.  
+- So far, traditional models fail to consistently improve on persistence.  
 
 ---
 
 ## Next Steps
-- Explore **nonlinear ML models** such as:
-  - **Random Forests** → can capture threshold effects and nonlinear interactions  
-  - **Gradient Boosting** → strong performance on spiky time series  
-  - **Neural Networks (RNNs/LSTMs)** → handle sequential patterns and complex dynamics  
-- Compare these models against persistence, regression, and SARIMA.  
-- Create clear visualizations of predictions vs actual flux values.  
+- Run a **500-tree Random Forest** overnight to check for stability, but large improvements are unlikely.  
+- Try **Gradient Boosted Trees (XGBoost/LightGBM)**, which often outperform Random Forest on tabular data.  
+- Engineer domain features:
+  - Rolling averages (7-day, 27-day)  
+  - Sunspot numbers (high correlation with F10.7)  
+  - Cycle indicators (27-day rotation, ~11-year cycle phase)  
+- Explore **Neural Networks (LSTM/GRU/TCN)** for sequence modeling once simpler models are exhausted.  
+- Continue using **walk-forward validation** for realistic performance estimates during both quiet and active solar periods.  
 
 ---
 
@@ -80,13 +103,19 @@ It is recommended to keep dependencies isolated in a virtual environment.
 python -m venv .venv
 ```
 
-On Linux/MAC: ```bashsource .venv/bin/activate```
-On Windows: ```bash.venv\Scripts\activate```
+On Linux/MAC: 
+```bash
+source .venv/bin/activate
+```
+On Windows: 
+```bash 
+.venv\Scripts\activate
+```
 
 ### 3. Install Dependencies
 After activating the environment, install required packages:
 ```bash
-pip install -r requirements.txt
+pip install -r f107-baseline/requirements.txt
 ```
 
 # Launch Jupyter Notebook
@@ -106,7 +135,15 @@ This project is part of the **CSULA Aerospace Senior Design Team (Fall 2025 - Sp
 
 **Team Members:**  
 - Joshua Hanscom  
-- [Add teammates here]  
+- Rizza Barnwell
+- Daniel Gomez
+- Daniel Herrera
+- Weihao Liu
+- Emily Lopez
+- Troy Rana
+- Fabricio Reyes
+- Maro Rodriguez
+- Andy Voong
 
 ---
 
