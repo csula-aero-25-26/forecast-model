@@ -135,7 +135,15 @@ This project is part of the **CSULA Aerospace Senior Design Team (Fall 2025 - Sp
 
 **Team Members:**  
 - Joshua Hanscom  
-- [Add teammates here]  
+- Rizza Barnwell
+- Daniel Gomez
+- Daniel Herrera
+- Weihao Liu
+- Emily Lopez
+- Troy Rana
+- Fabricio Reyes
+- Maro Rodriguez
+- Andy Voong
 
 ---
 
