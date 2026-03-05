@@ -27,3 +27,5 @@ Thumbs.db
 
 # Data (optional: if datasets are too large or shouldn't be tracked)
 *.csv
+
+# Serialized models?
