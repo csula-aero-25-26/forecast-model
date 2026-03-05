@@ -25,5 +25,7 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Data (optional: if datasets are too large or shouldn't be tracked)
+datasets/*.csv
 
 # Serialized models?
