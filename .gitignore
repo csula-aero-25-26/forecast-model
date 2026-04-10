@@ -26,4 +26,6 @@ Thumbs.db
 .idea/
 
 # Data (optional: if datasets are too large or shouldn't be tracked)
-*.csv
+*datasets/*.csv
+
+# Serialized models?
